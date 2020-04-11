@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 
+import Button from '@material-ui/core/Button';
+
 class App extends Component {
     // static propTypes = {
 
@@ -9,7 +11,9 @@ class App extends Component {
 
     render() {
         return (
-            <h3>Hello React !</h3>
+            <Button>
+                Valider
+            </Button>
         )
     }
 }
