@@ -7,7 +7,7 @@ import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
 
 import configWebpack from './webpack.config'
-import Router from './routes'
+import Router from './routes/api'
 
 
 const compiler = webpack(configWebpack);

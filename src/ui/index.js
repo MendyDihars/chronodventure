@@ -1,22 +1,18 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import history from '../history';
+import router from '../../routes/ui';
+import App from './views/App'
 
-import Button from '@material-ui/core/Button';
-
-class App extends Component {
-    // static propTypes = {
-
-    // }
-
-    render() {
-        return (
-            <Button>
-                Valider
-            </Button>
-        )
-    }
+const renderApp = async location => {
+    const Page = await router.resolve(location);
+    ReactDOM.render(
+        <App>
+            <Page />
+        </App>,
+        document.getElementById('root')
+    )
 }
 
-
-ReactDOM.render(<App />, document.getElementById('root'))
+renderApp(history.location);
+history.listen(renderApp);
