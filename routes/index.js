@@ -1,3 +1,5 @@
+import path from 'path';
+
 export default class Router {
     constructor(app) {
         this.app = app;
@@ -7,7 +9,7 @@ export default class Router {
     _initRoutes() {
         const { app } = this;
         app.get('/', (req, res) => {
-            res.json(['Hello', 'World'])
+            res.sendFile(path.resolve('public', 'index.html'))
         })
     }
 }

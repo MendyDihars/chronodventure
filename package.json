@@ -14,7 +14,8 @@
     "body-parser": "^1.19.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
-    "webpack": "^4.42.1"
+    "webpack": "^4.42.1",
+    "webpack-dev-middleware": "^3.7.2"
   },
   "devDependencies": {
     "dotenv": "^8.2.0",
