@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon -r esm server.js"
+    "server": "nodemon -r esm server.js",
+    "seed": "node -r esm ./data/seed"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +24,7 @@
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "history": "^4.10.1",
+    "mongoose": "^5.9.7",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

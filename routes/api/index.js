@@ -20,8 +20,14 @@ export default class Router {
 
     _initRoutes() {
         const { app } = this;
+
+        // ROUTES
         app.get('/', (req, res) => {
             this._renderApp(res)
         })
+
+        // app.get('/api/characters', (req, res) => {
+        //     let da
+        // })
     }
 }

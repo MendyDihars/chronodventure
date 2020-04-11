@@ -6,9 +6,15 @@ import bodyParser from 'body-parser';
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
 
+import { mongoose } from './data/db';
+
 import configWebpack from './webpack.config'
 import Router from './routes/api'
 
+const db = mongoose.connection;
+db.once('open', () => {
+    console.log('DB is connected');
+})
 
 const compiler = webpack(configWebpack);
 const app = express();
