@@ -1,1 +1,7 @@
-console.log('Hello World Console log')
+class Coucou {
+    sayHi() {
+        console.log('Hi !')
+    }
+}
+
+new Coucou().sayHi();
