@@ -1,4 +1,5 @@
 import path from 'path';
+import CharacterService from '../../services/character';
 
 export default class Router {
     constructor(app) {
@@ -26,8 +27,13 @@ export default class Router {
             this._renderApp(res)
         })
 
-        // app.get('/api/characters', (req, res) => {
-        //     let da
-        // })
+        app.get('/api/characters', async (req, res) => {
+            try {
+                const characters = await CharacterService.getCharacters();
+                res.send(characters);
+            } catch (err) {
+                throw new Error(err);
+            }
+        })
     }
 }

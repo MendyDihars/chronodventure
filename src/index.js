@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import history from '../history';
-import router from '../../routes/ui';
+import history from './history';
+import router from '../routes/app';
 import App from './views/App'
 
 const renderApp = async location => {
