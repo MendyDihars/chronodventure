@@ -1,5 +1,5 @@
 import path from 'path';
-import CharacterService from '../../services/character';
+import CharacterServiceAPI from '../services/character';
 
 export default class Router {
     constructor(app) {
@@ -29,7 +29,7 @@ export default class Router {
 
         app.get('/api/characters', async (req, res) => {
             try {
-                const characters = await CharacterService.getCharacters();
+                const characters = await CharacterServiceAPI.getCharacters();
                 res.send(characters);
             } catch (err) {
                 throw new Error(err);

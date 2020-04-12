@@ -13,7 +13,11 @@ module.exports = {
             // require the runtime instead of inlining it.
             {
                 test: /\.m?js$/,
-                exclude: /(node_modules|bower_components)/,
+                exclude: [
+                    path.resolve(__dirname, 'node_modules'),
+                    path.resolve(__dirname, 'services'),
+                    path.resolve(__dirname, 'data'),
+                ],
                 use: {
                     loader: 'babel-loader',
                     // options: {

@@ -1,21 +1,23 @@
 import React, { Component } from 'react'
-import history from '../history';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { fetchCharacters } from '../actions/character';
 
 class Home extends Component {
-    state = {
-        characters: []
+    static propTypes = {
+        dispatch: PropTypes.func.isRequired,
+        characters: PropTypes.shape().isRequired
     }
 
     componentDidMount = () => {
-        fetch('/api/characters')
-        .then(res => res.json())
-        .then(body => {
-            this.setState({ characters: body })
-        })
+        const { characters, dispatch } = this.props
+        if (characters.length === 0) {
+            dispatch(fetchCharacters());
+        }
     }
 
     render() {
-        const { characters } = this.state;
+        const { characters } = this.props;
         return (
             <div>
                 <ul>
@@ -32,4 +34,6 @@ class Home extends Component {
     }
 }
 
-export default Home;
+const mapStateToProps = state => ({ ...state.Character })
+
+export default connect(mapStateToProps)(Home);

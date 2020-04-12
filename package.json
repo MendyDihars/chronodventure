@@ -10,7 +10,8 @@
   },
   "nodemonConfig": {
     "ignore": [
-      "src/*"
+      "src/*",
+      "routes/ui.js"
     ],
     "delay": "2500"
   },
@@ -36,6 +37,8 @@
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
     "universal-router": "^9.0.1",
     "webpack": "^4.42.1",
     "webpack-dev-middleware": "^3.7.2",

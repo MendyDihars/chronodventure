@@ -1,5 +1,7 @@
 import { Character } from './db';
 
+Character.remove({}, (err) => { if (err) throw err; })
+
 const handleSave = (err) => {
     if (err) throw new Error('An error raider at the creation', err);
     console.log('OK');
