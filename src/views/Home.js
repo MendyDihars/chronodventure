@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
 // COMPONENTS
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import Line from '../components/Line';
+import CharacterLine from '../components/CharacterLine';
 
 import colors from '../colors';
 
@@ -43,7 +42,7 @@ class Home extends Component {
                 {
                     characters.map(character => (
                         <Grid item xs={12}>
-                            <Line character={character} />
+                            <CharacterLine character={character} />
                         </Grid>
                     ))
                 }
