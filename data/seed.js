@@ -7,12 +7,34 @@ const handleSave = (err) => {
     console.log('OK');
 }
 
-const n = Math.floor(Math.random() * 10) + 3;
-let chara;
-for (let i = 1; i <= n; i++) {
-    chara = new Character({
-        firstName: `Jean #${i}`,
-        lastName: `Dupont ${i}`
-    })
-    chara.save(handleSave);
-}
+const charas = [
+    {
+        firstName: 'Mael',
+        lastName: 'Klein'
+    },
+    {
+        firstName: 'Bruldal',
+        lastName: 'Olfkromm'
+    },
+    {
+        firstName: 'Eris',
+        lastName: ''
+    },
+    {
+        firstName: 'Exilwyn',
+        lastName: 'Agatar'
+    },
+    {
+        firstName: 'Kerrek',
+        lastName: 'Gundaar'
+    },
+    {
+        firstName: 'Tendaji',
+        lastName: 'Maathaï'
+    }
+]
+
+charas.forEach(c => {
+    new Character(c).save(handleSave)
+})
+
