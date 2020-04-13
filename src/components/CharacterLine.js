@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/styles';
-import classNames from 'classnames'
 
 import Grid from '@material-ui/core/Grid'
+import Line from './Line';
 
 import colors from '../colors';
 
@@ -21,18 +21,28 @@ const style = {
     },
     begin: {
         flex: 1,
-        background: 'white'
+        // background: 'white'
+    },
+    graph: {
+        height: '100%',
+        width: '100%'
     }
 }
 
+
 class CharacterLine extends Component {
+    constructor(props) {
+        super(props);
+        this.lineRef = React.createRef();
+    } 
+
     static propTypes = {
         classes: PropTypes.shape().isRequired,
         character: PropTypes.shape().isRequired
     }
 
     render() {
-        const { character, classes } = this.props
+        const { character, classes } = this.props;
         return (
             <Grid container>
                 <div className={classes.wrapperName}>
@@ -40,7 +50,9 @@ class CharacterLine extends Component {
                         {character.firstName} {character.lastName}
                     </div>
                 </div>
-                <div className={classNames(character._id + '--line', classes.begin)}>
+                <div className={classes.begin}>
+                    <div ref={this.lineRef} className={classes.graph}></div>
+                    <Line element={this.lineRef} />
                 </div>
             </Grid>
         )

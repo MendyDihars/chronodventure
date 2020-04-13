@@ -11,7 +11,6 @@ export const fetchCharacters = () => {
 
         try {
             const characters = await CharacterService.getCharacters();
-            console.log('characters', characters)
             dispatch(success(characters))
         } catch (err) {
             dispatch(failure(err));
