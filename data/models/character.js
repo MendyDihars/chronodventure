@@ -5,10 +5,13 @@ const initCharacter = mongoose => {
         firstName: String,
         lastName: String,
         klass: String,
-        events: [
+        stories: [
             {
-                type: Schema.Types.ObjectId,
-                ref: 'Event'
+                description: String,
+                event: {
+                    type: Schema.Types.ObjectId,
+                    ref: 'Event'
+                }
             }
         ]
     })

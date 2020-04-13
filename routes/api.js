@@ -1,5 +1,6 @@
 import path from 'path';
-import CharacterServiceAPI from '../services/character';
+import CharacterController from '../controllers/character';
+import EventController from '../controllers/event';
 
 export default class Router {
     constructor(app) {
@@ -27,12 +28,23 @@ export default class Router {
             this._renderApp(res)
         })
 
+        // CHARACTERS
         app.get('/api/characters', async (req, res) => {
             try {
-                const characters = await CharacterServiceAPI.getCharacters();
+                const characters = await CharacterController.getCharacters();
                 res.send(characters);
             } catch (err) {
                 throw new Error(err);
+            }
+        })
+
+        // EVENTS
+        app.get('/api/events', async (req, res) => {
+            try {
+                const events = await EventController.getEvents();
+                res.send(events);
+            } catch (err) {
+                throw new Error(err)
             }
         })
     }

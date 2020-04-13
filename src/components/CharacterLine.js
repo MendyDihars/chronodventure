@@ -38,7 +38,8 @@ class CharacterLine extends Component {
 
     static propTypes = {
         classes: PropTypes.shape().isRequired,
-        character: PropTypes.shape().isRequired
+        character: PropTypes.shape().isRequired,
+        events: PropTypes.arrayOf(PropTypes.shape()).isRequired
     }
 
     render() {
@@ -52,7 +53,7 @@ class CharacterLine extends Component {
                 </div>
                 <div className={classes.begin}>
                     <div ref={this.lineRef} className={classes.graph}></div>
-                    <Line element={this.lineRef} />
+                    <Line element={this.lineRef} character={character} />
                 </div>
             </Grid>
         )

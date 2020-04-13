@@ -1,10 +1,10 @@
-export default class CharacterService {
-    static getCharacters() {
+export default class EventService {
+    static getEvents() {
         return new Promise((resolve, reject) => {
-            fetch('/api/characters')
+            fetch('/api/events')
                 .then(res => res.json())
                 .then(resolve)
-                .catch(reject);
+                .catch(reject)
         })
     }
 }

@@ -32,7 +32,7 @@ const CHARAS = [
 
 
 const seed = async () => {
-    let model, characters = [], events = [];
+    let model, characters = [], events = [], stories = [];
     try {
         for (let chara of CHARAS) {
             model = await Character.create(chara);
@@ -42,18 +42,27 @@ const seed = async () => {
         for (let i = 0; i < 11; i++) {
             model = await Event.create({
                 name: `Event ${i}`,
-                position: i,
-                characters: characters.map(x => x._id)
+                position: i
             })
             events.push(model)
             console.log(model.name)
         }
         for (let c of characters) {
             for (let ev of events) {
-                c.events.push(ev);
-                await c.save()
-                console.log(ev._id, 'added to', c._id)
+                c.stories.push({
+                    description: `Story of event ${ev._id}`,
+                    event: ev._id
+                });
+                model = await c.save()
+                stories.push(model.stories[model.stories.length - 1])
+                console.log(`Story ${model.stories[model.stories.length - 1]._id} added to Character ${c._id}`)
             }
+        }
+        for (let story of stories) {
+            let ev = await Event.findById(story.event)
+            ev.stories.push(story._id)
+            await ev.save();
+            console.log(`Story ${story._id} added to Event ${ev._id}`)
         }
 
     } catch (err) {

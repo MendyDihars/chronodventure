@@ -25,6 +25,11 @@ module.exports = {
                     //   plugins: ['@babel/plugin-transform-runtime']
                     // }
                 }
+            },
+            {
+                test: /\.js$/,
+                use: ["source-map-loader"],
+                enforce: "pre"
             }
         ]
     }

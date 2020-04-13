@@ -4,10 +4,10 @@ const initEvent = mongoose => {
     const eventSchema = new mongoose.Schema({
         name: String,
         position: Number,
-        characters: [
+        stories: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'Character'
+                ref: 'Story'
             }
         ]
     })
