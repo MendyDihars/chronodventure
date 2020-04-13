@@ -1,13 +1,9 @@
-import { Character } from './db';
+import { Character, Event, mongoose } from './db';
 
-Character.remove({}, (err) => { if (err) throw err; })
+Character.deleteMany({}, (err) => { if (err) throw err; })
+Event.deleteMany({}, (err) => { if (err) throw err; })
 
-const handleSave = (err) => {
-    if (err) throw new Error('An error raider at the creation', err);
-    console.log('OK');
-}
-
-const charas = [
+const CHARAS = [
     {
         firstName: 'Mael',
         lastName: 'Klein'
@@ -34,7 +30,37 @@ const charas = [
     }
 ]
 
-charas.forEach(c => {
-    new Character(c).save(handleSave)
-})
 
+const seed = async () => {
+    let model, characters = [], events = [];
+    try {
+        for (let chara of CHARAS) {
+            model = await Character.create(chara);
+            characters.push(model)
+            console.log(model.firstName)
+        }
+        for (let i = 0; i < 11; i++) {
+            model = await Event.create({
+                name: `Event ${i}`,
+                position: i,
+                characters: characters.map(x => x._id)
+            })
+            events.push(model)
+            console.log(model.name)
+        }
+        for (let c of characters) {
+            for (let ev of events) {
+                c.events.push(ev);
+                await c.save()
+                console.log(ev._id, 'added to', c._id)
+            }
+        }
+
+    } catch (err) {
+        throw new Error('custom error ' + err)
+    }
+    console.log('DONE')
+    mongoose.connection.close();
+}
+
+seed();
