@@ -5,6 +5,9 @@ import * as joint from 'jointjs';
 import { withStyles } from '@material-ui/styles';
 
 import IosRefresh from 'react-ionicons/lib/IosRefresh';
+import Dialog from '@material-ui/core/Dialog';
+import Paper from '@material-ui/core/Paper';
+
 
 // ACTIONS
 import { fetchCharacters } from '../actions/character';
@@ -24,6 +27,12 @@ const style = {
         alignItems: 'center',
         background: 'rgba(0, 0, 0, 0.5)',
         color: 'white'
+    },
+    paper: {
+        padding: 16
+    },
+    marged: {
+        marginBottom: 16
     }
 }
 
@@ -35,6 +44,12 @@ class Graph extends Component {
         evLoading: PropTypes.bool.isRequired,
         element: PropTypes.any.isRequired,
         classes: PropTypes.shape().isRequired,
+    }
+
+    state = {
+        character: {},
+        event: {},
+        isOpen: false
     }
 
     componentDidUpdate = () => {
@@ -88,17 +103,32 @@ class Graph extends Component {
         }
     }
 
+    handleClick = (character, event) => {
+        this.setState({
+            character: character,
+            event: event,
+            isOpen: true
+        })
+    }
+
+    handleClose = () => {
+        this.setState({ isOpen: false })
+    }
+
     handleHover = () => {
-        const { characters } = this.props
+        const { characters, events } = this.props
+        const handleClick = this.handleClick;
         return joint.dia.ElementView.extend({
             events: {
-                'mouseover': 'mouseovercard'
+                'click': 'clic'
             },
     
-            mouseovercard: function(evt, x, y) {
+            clic: function(evt, x, y) {
                 let model = this.model;
                 const { character, event } = model.attributes.attrs.custom;
-                let story = characters.find(c => c._id === character).stories.find(s => s.event === event)
+                let c = characters.find(c => c._id === character);
+                let ev = events.find(e => e._id === event)
+                handleClick(c, ev)
             }
         });
     }
@@ -240,6 +270,13 @@ class Graph extends Component {
 
     render() {
         const { evLoading, classes } = this.props;
+        const { isOpen, character, event } = this.state;
+
+        let story = {};
+        if (Object.keys(character).length > 0 && Object.keys(event).length > 0) {
+            story = character.stories.find(s => s.event === event._id)
+            console.log('too loong')
+        }
 
         if (evLoading) {
             return (
@@ -250,7 +287,21 @@ class Graph extends Component {
                 </div>
             )
         }
-        return null;
+        return (
+            <Dialog open={isOpen} onClose={this.handleClose}>
+                <Paper elevation={2} classes={{ root: classes.paper }}>
+                    <div className={classes.marged}>
+                        Character: {character.firstName} {character.lastName}
+                    </div>
+                    <div className={classes.marged}>
+                        Event: {event.name}
+                    </div>
+                    <div>
+                        Description :{story.description}
+                    </div>
+                </Paper>
+            </Dialog>
+        );
     }
 }
 
