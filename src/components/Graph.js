@@ -99,7 +99,6 @@ class Graph extends Component {
                 let model = this.model;
                 const { character, event } = model.attributes.attrs.custom;
                 let story = characters.find(c => c._id === character).stories.find(s => s.event === event)
-                console.log('story', story)
             }
         });
     }
@@ -220,7 +219,6 @@ class Graph extends Component {
     }
 
     createCharacters = (options) => {
-        console.log('Hello')
         const { characters } = this.props;
         const { baseX, baseY, height, width, graph } = options;
         
