@@ -60,6 +60,9 @@ class Graph extends Component {
         baseX = 32,
         heightCharacterBox = 70,
         widthCharacterBox = 150;
+        if (events.length > 3) {
+            element.current.parentNode.style.width = `${((events.length * 150) + 100)}px`;
+        }
         if (characters.length > 0) {
             const graph = new joint.dia.Graph;
             const paper = new joint.dia.Paper({
@@ -68,7 +71,7 @@ class Graph extends Component {
                 width: (events.length * 150) + 100,
                 height: element.current.clientHeight,
                 gridSize: 1,
-                interactive: false,
+                // interactive: false,
                 elementView: eventView
             })
             

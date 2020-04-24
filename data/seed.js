@@ -39,7 +39,7 @@ const seed = async () => {
             characters.push(model)
             console.log(model.firstName)
         }
-        for (let i = 0; i < 11; i++) {
+        for (let i = 0; i < 30; i++) {
             model = await Event.create({
                 name: `Event ${i}`,
                 position: i

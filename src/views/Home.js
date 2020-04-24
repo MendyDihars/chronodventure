@@ -10,12 +10,15 @@ import colors from '../colors';
 const style = {
     root: {
         background: colors.background,
-        // display: 'flex',
+        display: 'flex',
         // justifyContent: 'space-between',
         height: '100vh',
-        padding: '32px 0 0 16px'
+        padding: '32px 0 0 16px',
+        overflowX: 'scroll',
+        flexWrap: 'no-wrap'
     },
     graph: {
+        flex: '0 0 auto',
         height: "100%",
         minWidth: "100%",
     }
