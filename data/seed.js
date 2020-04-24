@@ -3,6 +3,8 @@ import { Character, Event, mongoose } from './db';
 Character.deleteMany({}, (err) => { if (err) throw err; })
 Event.deleteMany({}, (err) => { if (err) throw err; })
 
+const last = array => array[array.length - 1];
+
 const CHARAS = [
     {
         firstName: 'Mael',
@@ -32,16 +34,16 @@ const CHARAS = [
 
 
 const seed = async () => {
-    let model, characters = [], events = [], stories = [];
+    let model, story = {}, characters = [], events = [];
     try {
         for (let chara of CHARAS) {
             model = await Character.create(chara);
             characters.push(model)
             console.log(model.firstName)
         }
-        for (let i = 0; i < 30; i++) {
+        for (let i = 0; i < 16; i++) {
             model = await Event.create({
-                name: `Event ${i}`,
+                name: `Event ${i + 1}`,
                 position: i
             })
             events.push(model)
@@ -49,20 +51,17 @@ const seed = async () => {
         }
         for (let c of characters) {
             for (let ev of events) {
-                c.stories.push({
+                story = {
                     description: `Story of event ${ev._id}`,
                     event: ev._id
-                });
+                }
+                c.stories.push(story);
                 model = await c.save()
-                stories.push(model.stories[model.stories.length - 1])
-                console.log(`Story ${model.stories[model.stories.length - 1]._id} added to Character ${c._id}`)
+                story = last(model.stories);
+                console.log(`Story ${story._id} added to Character ${model._id}`)
+                ev.stories.push(story._id)
+                await ev.save()
             }
-        }
-        for (let story of stories) {
-            let ev = await Event.findById(story.event)
-            ev.stories.push(story._id)
-            await ev.save();
-            console.log(`Story ${story._id} added to Event ${ev._id}`)
         }
 
     } catch (err) {

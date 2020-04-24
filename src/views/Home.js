@@ -10,17 +10,11 @@ import colors from '../colors';
 const style = {
     root: {
         background: colors.background,
-        display: 'flex',
+        // display: 'flex',
         // justifyContent: 'space-between',
         height: '100vh',
         padding: '32px 0 0 16px',
-        overflowX: 'scroll',
-        flexWrap: 'no-wrap'
-    },
-    graph: {
-        flex: '0 0 auto',
-        height: "100%",
-        minWidth: "100%",
+        width: 'fit-content'
     }
 }
 
@@ -29,17 +23,11 @@ class Home extends Component {
         classes: PropTypes.shape().isRequired
     }
 
-    constructor(props) {
-        super(props);
-        this.graph = React.createRef();
-    }
-
     render() {
         const { classes } = this.props;
         return (
-            <Grid container classes={{container: classes.root}}>
-                <div className={classes.graph} ref={this.graph}></div>
-                <Graph element={this.graph} />
+            <Grid container classes={classes}>
+                <Graph />
             </Grid>
         )
     }
