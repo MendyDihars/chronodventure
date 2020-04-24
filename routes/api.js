@@ -1,6 +1,6 @@
 import path from 'path';
-import CharacterController from '../controllers/character';
-import EventController from '../controllers/event';
+import CharacterDriver from '../drivers/character';
+import EventDriver from '../drivers/event';
 
 export default class Router {
     constructor(app) {
@@ -31,7 +31,7 @@ export default class Router {
         // CHARACTERS
         app.get('/api/characters', async (req, res) => {
             try {
-                const characters = await CharacterController.getCharacters();
+                const characters = await CharacterDriver.getCharacters();
                 res.send(characters);
             } catch (err) {
                 throw new Error(err);
@@ -41,7 +41,7 @@ export default class Router {
         // EVENTS
         app.get('/api/events', async (req, res) => {
             try {
-                const events = await EventController.getEvents();
+                const events = await EventDriver.getEvents();
                 res.send(events);
             } catch (err) {
                 throw new Error(err)

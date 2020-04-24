@@ -1,6 +1,6 @@
 import { Event } from '../data/db';
 
-export default class EventController {
+export default class EventDriver {
     static getEvents() {
         return new Promise((resolve, reject) => {
             Event.find({}, (err, data) => {

@@ -1,6 +1,6 @@
 import { Character } from '../data/db';
 
-export default class CharacterController {
+export default class CharacterDriver {
     static getCharacters() {
         return new Promise((resolve, reject) => {
             Character.find({}, (err, data) => {
