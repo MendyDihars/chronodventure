@@ -157,11 +157,14 @@ class Graph extends Component {
                                         // If character cell
                                         } else if (i === 0 && index > 0) {
                                             return (
-                                                <Cell>
-                                                    <div className={classes.blockCharacter}>
-                                                        {element.firstName} {element.lastName}
-                                                    </div>
-                                                </Cell>
+                                                <>
+                                                    <Cell fixed>
+                                                        <div className={classes.blockCharacter}>
+                                                            {element.firstName} {element.lastName}
+                                                        </div>
+                                                    </Cell>
+                                                    <Cell />
+                                                </>
                                             )
                                         // If event cell
                                         } else if (i > 0 && index === 0) {
