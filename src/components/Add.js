@@ -44,12 +44,11 @@ class Add extends Component {
 
     handleClick = () => {
         const { handleClick, position } = this.props;
-        handleClick(position);
+        handleClick(position + 1);
     }
 
     render() {
         const { classes, color } = this.props
-        console.log('color', color)
         return (
             <div className={classNames(classes.root, classes[color])} onClick={this.handleClick}>
                 +

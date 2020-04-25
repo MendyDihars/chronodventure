@@ -151,7 +151,9 @@ class Graph extends Component {
                                         // If dead cell
                                         if (i === 0 && index === 0) {
                                             return (
-                                                <Cell />
+                                                <Cell>
+                                                    <Add position={0} handleClick={this.newEvent} />
+                                                </Cell>
                                             )
                                         // If character cell
                                         } else if (i === 0 && index > 0) {
