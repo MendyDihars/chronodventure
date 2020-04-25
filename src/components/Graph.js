@@ -10,6 +10,8 @@ import Dialog from '@material-ui/core/Dialog';
 import Paper from '@material-ui/core/Paper';
 import Event from './Event';
 import Link from './Link';
+import Cell from './Cell';
+import Add from './Add';
 
 
 // ACTIONS
@@ -24,20 +26,12 @@ const build3DArray = (characters, events) => {
     characters.forEach(character => {
         arr.push([character, ...events])
     })
-    console.log('arr', arr)
     return arr;
 }
 
 const style = {
     blockWrapper: {
         display: 'flex'
-    },
-    block: {
-        width: 160,
-        height: 64,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
     },
     blockCharacter: {
         background: colors.line,
@@ -51,7 +45,7 @@ const style = {
     blockEventName: {
         borderRadius: 3,
         padding: 16,
-        background: colors.event
+        background: colors.event,
     },
     loading: {
         position: 'absolute',
@@ -124,6 +118,10 @@ class Graph extends Component {
         this.setState({ isOpen: false })
     }
 
+    newEvent = position => {
+        console.log(position)
+    }
+
     render() {
         const { evLoading, classes, characters, events } = this.props;
         const { isOpen, character, event } = this.state;
@@ -150,49 +148,88 @@ class Graph extends Component {
                             <Grid item xs={12} className={classes.blockWrapper}>
                                 {
                                     row.map((element, i) => {
+                                        // If dead cell
                                         if (i === 0 && index === 0) {
                                             return (
-                                                <div className={classes.block}></div>
+                                                <Cell />
                                             )
+                                        // If character cell
                                         } else if (i === 0 && index > 0) {
                                             return (
-                                                <div className={classes.block}>
+                                                <Cell>
                                                     <div className={classes.blockCharacter}>
                                                         {element.firstName} {element.lastName}
                                                     </div>
-                                                </div>
+                                                </Cell>
                                             )
+                                        // If event cell
                                         } else if (i > 0 && index === 0) {
                                             return (
-                                                <div className={classes.block}>
-                                                    <div className={classes.blockEventName}>
-                                                        {element.name}
-                                                    </div>
-                                                </div>
+                                                <>
+                                                    <Cell>
+                                                        <div className={classes.blockEventName}>
+                                                            {element.name}
+                                                        </div>
+                                                    </Cell>
+                                                    <Cell>
+                                                        <Add position={element.position} handleClick={this.newEvent} />
+                                                    </Cell>
+                                                </>
                                             )
+                                        // If first story cell
                                         } else if (i === 1) {
                                             return (
-                                                <div className={classes.block}>
-                                                    <div className={classes.flexOne}></div>
-                                                    <Event handleClick={this.handleEvent} character={row[0]} event={element} />
-                                                    <Link />
-                                                </div>
+                                                <>
+                                                    <Cell>
+                                                        <div className={classes.flexOne}></div>
+                                                        <Event handleClick={this.handleEvent} character={row[0]} event={element} />
+                                                        <Link />
+                                                    </Cell>
+                                                    <Cell>
+                                                        <Link />
+                                                    </Cell>
+                                                    {/* <Cell>
+                                                        <Link />
+                                                        <Add position={element.position} handleClick={this.newEvent} color="line" />
+                                                        <Link />
+                                                    </Cell> */}
+                                                </>
                                             )
+                                        // If last story cell
                                         } else if (i === row.length - 1) {
                                             return (
-                                                <div className={classes.block}>
-                                                    <Link />
-                                                    <Event handleClick={this.handleEvent} character={row[0]} event={element} />
-                                                    <div className={classes.flexOne}></div>
-                                                </div>
+                                                <>
+                                                    <Cell>
+                                                        <Link />
+                                                        <Event handleClick={this.handleEvent} character={row[0]} event={element} />
+                                                        {/* <Link /> */}
+                                                        <div className={classes.flexOne}></div>
+                                                    </Cell>
+                                                    {/* <Cell>
+                                                        <Link />
+                                                        <Add position={element.position} handleClick={this.newEvent} color="line" />
+                                                        <div className={classes.flexOne}></div>
+                                                    </Cell> */}
+                                                </>
                                             )
+                                        // If story cell
                                         } else {
                                             return (
-                                                <div className={classes.block}>
-                                                    <Link />
-                                                    <Event handleClick={this.handleEvent} character={row[0]} event={element} />
-                                                    <Link />
-                                                </div>
+                                                <>
+                                                    <Cell>
+                                                        <Link />
+                                                        <Event handleClick={this.handleEvent} character={row[0]} event={element} />
+                                                        <Link />
+                                                    </Cell>
+                                                    <Cell>
+                                                        <Link />
+                                                    </Cell>
+                                                    {/* <Cell>
+                                                        <Link />
+                                                        <Add position={element.position} handleClick={this.newEvent} color="line" />
+                                                        <Link />
+                                                    </Cell> */}
+                                                </>
                                             )
                                         }
                                     })

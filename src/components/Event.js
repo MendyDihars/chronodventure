@@ -10,14 +10,14 @@ const style = {
         height: 30,
         width: 30,
         borderRadius: 100,
-        background: colors.line,
+        background: colors.event,
         cursor: 'pointer',
         transition: 'all 0.5s ease',
         '&:hover': {
             height: 50,
             width: 50,
-            marginLeft: '-10px',
-            marginRight: '-10px'
+            // marginLeft: '-10px',
+            // marginRight: '-20px'
         }
     }
 }
