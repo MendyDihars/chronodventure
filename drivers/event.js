@@ -2,7 +2,6 @@ import { Event, Character } from '../data/db';
 
 export default class EventDriver {
     static eventAlimentation(event) {
-        console.log('event', event)
         return async events => {
             try {
                 let eventsFiltered = events.filter(ev => ev.position >= event.position);

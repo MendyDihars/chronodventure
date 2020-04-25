@@ -35,6 +35,11 @@ export default class Router {
             res.send(characters);
         }))
 
+        app.put('/api/characters/:id', asyncHandler(async (req, res) => {
+            const character = await CharacterDriver.updateCharacter(req.params.id, req.body);
+            res.send(character);
+        }))
+
         // EVENTS
         app.get('/api/events', asyncHandler(async (req, res) => {
             const events = await EventDriver.getEvents();
@@ -42,9 +47,9 @@ export default class Router {
         }))
 
         app.post('/api/events', asyncHandler(async (req, res) => {
-            console.log('req.body', req.body)
             let events = await EventDriver.createEvent(req.body);
             res.send(events)
         }))
+
     }
 }

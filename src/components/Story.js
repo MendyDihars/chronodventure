@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/styles';
 
@@ -9,6 +10,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+
+import { updateCharacter } from '../actions/character';
 
 const isEmptyObject = o => Object.keys(o).length <= 0
 
@@ -28,11 +31,13 @@ const style = {
 
 class Story extends Component {
     static propTypes = {
+        dispatch: PropTypes.func.isRequired,
         isDialogOpen: PropTypes.bool.isRequired,
         handleClose: PropTypes.func.isRequired,
         character: PropTypes.shape().isRequired,
         event: PropTypes.shape().isRequired,
         classes: PropTypes.shape().isRequired,
+        handleSubmit: PropTypes.func.isRequired
     }
 
     state = {
@@ -55,13 +60,15 @@ class Story extends Component {
     }
 
     handleDescription = e => {
-        console.log('Hallo')
         this.setState({ description: e.target.value })
     }
 
-    handleSubmit = () => {
+    handleSubmit = story => () => {
+        const { character, dispatch } = this.props
         const { description } = this.state
-        console.log('Story new Desc', description);
+        story.description = description;
+        character.stories = [ ...character.stories, story ]
+        dispatch(updateCharacter(character));
         this.handleFormClose();
     }
 
@@ -118,7 +125,7 @@ class Story extends Component {
                             </DialogContent>
                             <DialogActions>
                                 <Button onClick={this.handleFormClose}>Annuler</Button>
-                                <Button variant='contained' color='primary' onClick={this.handleSubmit}>Valider</Button>
+                                <Button variant='contained' color='primary' onClick={this.handleSubmit(story)}>Valider</Button>
                             </DialogActions>
                         </>
                     )
@@ -128,4 +135,8 @@ class Story extends Component {
     }
 }
 
-export default withStyles(style)(Story)
+const mapStateToProps = state => ({ ...state.Character })
+
+export default connect(mapStateToProps)(
+    withStyles(style)(Story)
+)

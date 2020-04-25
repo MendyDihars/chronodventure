@@ -17,3 +17,20 @@ export const fetchCharacters = () => {
         }
     }
 }
+
+export const updateCharacter = character => {
+    const request = () => ({ type: CharacterConstants.UPDATE_CHARACTER_REQUEST })
+    const failure = err => ({ type: CharacterConstants.UPDATE_CHARACTER_FAILURE, err: err })
+    const success = data => ({ type: CharacterConstants.UPDATE_CHARACTER_SUCCESS, data: data })
+
+    return async dispatch => {
+        dispatch(request());
+
+        try {
+            let data = await CharacterService.updateCharacter(character);
+            dispatch(success(data))
+        } catch (err) {
+            dispatch(failure(err))
+        }
+    }
+}

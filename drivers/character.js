@@ -9,4 +9,13 @@ export default class CharacterDriver {
             })
         })
     }
+
+    static updateCharacter(id, character) {
+        return new Promise((resolve, reject) => {
+            Character.findByIdAndUpdate(id, character, (err, characterColl) => {
+                if (err) reject(err);
+                resolve(characterColl);
+            })
+        })
+    }
 }
