@@ -14,7 +14,8 @@ const style = {
         // justifyContent: 'space-between',
         height: '100vh',
         padding: '32px 0 0 16px',
-        width: 'fit-content'
+        width: 'fit-content',
+        minWidth: '100%'
     }
 }
 

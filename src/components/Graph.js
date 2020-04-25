@@ -6,18 +6,17 @@ import ScrollBooster from 'scrollbooster';
 
 import IosRefresh from 'react-ionicons/lib/IosRefresh';
 import Grid from '@material-ui/core/Grid';
-import Dialog from '@material-ui/core/Dialog';
-import Paper from '@material-ui/core/Paper';
 import Event from './Event';
 import Link from './Link';
 import Cell from './Cell';
 import Add from './Add';
 import Story from './Story';
+import EventForm from './forms/EventForm';
 
 
 // ACTIONS
 import { fetchCharacters } from '../actions/character';
-import { fetchEvents } from '../actions/event';
+import { fetchEvents, addEvent } from '../actions/event';
 import colors from '../colors';
 
 const build3DArray = (characters, events) => {
@@ -77,7 +76,9 @@ class Graph extends Component {
     state = {
         character: {},
         event: {},
-        isOpen: false
+        isStoryOpen: false,
+        isEventOpen: false,
+        currentPosition: NaN
     }
 
     constructor(props) {
@@ -93,31 +94,40 @@ class Graph extends Component {
         if (events.length === 0) {
             dispatch(fetchEvents());
         }
-        new ScrollBooster({
-            viewport: this.scrollable.current,
-            content: this.scrollable.current,
-            scrollMode: 'native',
-            direction: 'horizontal',
-            emulateScroll: true
-        })
-        console.log('this.scrollable.current', this.scrollable.current)
+        // new ScrollBooster({
+        //     viewport: this.scrollable.current,
+        //     content: this.scrollable.current,
+        //     scrollMode: 'native',
+        //     direction: 'horizontal',
+        //     emulateScroll: true
+        // })
     }
 
-    handleEvent = (character, event) => {
-        this.setState({ character, event, isOpen: true })
+    handleStoryOpen = (character, event) => {
+        this.setState({ character, event, isStoryOpen: true })
     }
 
-    handleClose = () => {
-        this.setState({ isOpen: false })
+    handleStoryClose = () => {
+        this.setState({ isStoryOpen: false })
     }
 
-    newEvent = position => {
-        console.log(position)
+    handleEventForm = position => {
+        this.setState({ isEventOpen: true, currentPosition: position })
+    }
+
+    handleEventClose = () => {
+        this.setState({ isEventOpen: false, currentPosition: null })
+    }
+
+    handleEventSubmit = (position, name) => {
+        const { dispatch } = this.props;
+        dispatch(addEvent({ position, name }))
+        this.handleEventClose()
     }
 
     render() {
         const { evLoading, classes, characters, events } = this.props;
-        const { isOpen, character, event } = this.state;
+        const { isStoryOpen, isEventOpen, character, event, currentPosition } = this.state;
         let array3D = build3DArray(characters, events);
 
         if (evLoading) {
@@ -141,7 +151,7 @@ class Graph extends Component {
                                         if (i === 0 && index === 0) {
                                             return (
                                                 <Cell>
-                                                    <Add position={0} handleClick={this.newEvent} />
+                                                    <Add position={0} handleClick={this.handleEventForm} />
                                                 </Cell>
                                             )
                                         // If character cell
@@ -163,17 +173,26 @@ class Graph extends Component {
                                                         </div>
                                                     </Cell>
                                                     <Cell>
-                                                        <Add position={element.position} handleClick={this.newEvent} />
+                                                        <Add position={element.position + 1} handleClick={this.handleEventForm} />
                                                     </Cell>
                                                 </>
                                             )
+                                        // If first story and if just one cell
+                                        } else if (i === 1 && (row.length - 1) === i) {
+                                            return (
+                                                <Cell>
+                                                    <div className={classes.flexOne}></div>
+                                                    <Event handleClick={this.handleStoryOpen} character={row[0]} event={element} />
+                                                    <div className={classes.flexOne}></div>
+                                                </Cell>
+                                            )                                            
                                         // If first story cell
                                         } else if (i === 1) {
                                             return (
                                                 <>
                                                     <Cell>
                                                         <div className={classes.flexOne}></div>
-                                                        <Event handleClick={this.handleEvent} character={row[0]} event={element} />
+                                                        <Event handleClick={this.handleStoryOpen} character={row[0]} event={element} />
                                                         <Link />
                                                     </Cell>
                                                     <Cell>
@@ -181,7 +200,7 @@ class Graph extends Component {
                                                     </Cell>
                                                     {/* <Cell>
                                                         <Link />
-                                                        <Add position={element.position} handleClick={this.newEvent} color="line" />
+                                                        <Add position={element.position} handleClick={this.handleEventForm} color="line" />
                                                         <Link />
                                                     </Cell> */}
                                                 </>
@@ -192,13 +211,13 @@ class Graph extends Component {
                                                 <>
                                                     <Cell>
                                                         <Link />
-                                                        <Event handleClick={this.handleEvent} character={row[0]} event={element} />
+                                                        <Event handleClick={this.handleStoryOpen} character={row[0]} event={element} />
                                                         {/* <Link /> */}
                                                         <div className={classes.flexOne}></div>
                                                     </Cell>
                                                     {/* <Cell>
                                                         <Link />
-                                                        <Add position={element.position} handleClick={this.newEvent} color="line" />
+                                                        <Add position={element.position} handleClick={this.handleEventForm} color="line" />
                                                         <div className={classes.flexOne}></div>
                                                     </Cell> */}
                                                 </>
@@ -209,7 +228,7 @@ class Graph extends Component {
                                                 <>
                                                     <Cell>
                                                         <Link />
-                                                        <Event handleClick={this.handleEvent} character={row[0]} event={element} />
+                                                        <Event handleClick={this.handleStoryOpen} character={row[0]} event={element} />
                                                         <Link />
                                                     </Cell>
                                                     <Cell>
@@ -217,7 +236,7 @@ class Graph extends Component {
                                                     </Cell>
                                                     {/* <Cell>
                                                         <Link />
-                                                        <Add position={element.position} handleClick={this.newEvent} color="line" />
+                                                        <Add position={element.position} handleClick={this.handleEventForm} color="line" />
                                                         <Link />
                                                     </Cell> */}
                                                 </>
@@ -233,9 +252,10 @@ class Graph extends Component {
                 <Story
                     character={character}
                     event={event}
-                    handleClose={this.handleClose}
-                    isDialogOpen={isOpen}
+                    handleClose={this.handleStoryClose}
+                    isDialogOpen={isStoryOpen}
                 />
+                <EventForm isOpen={isEventOpen} position={currentPosition} handleClose={this.handleEventClose} handleSubmit={this.handleEventSubmit} />
             </Grid>
         );
     }

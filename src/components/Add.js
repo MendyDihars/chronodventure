@@ -44,7 +44,7 @@ class Add extends Component {
 
     handleClick = () => {
         const { handleClick, position } = this.props;
-        handleClick(position + 1);
+        handleClick(position);
     }
 
     render() {

@@ -41,28 +41,28 @@ const seed = async () => {
             characters.push(model)
             console.log(model.firstName)
         }
-        for (let i = 0; i < 16; i++) {
-            model = await Event.create({
-                name: `Event ${i + 1}`,
-                position: i
-            })
-            events.push(model)
-            console.log(model.name)
-        }
-        for (let c of characters) {
-            for (let ev of events) {
-                story = {
-                    description: `Story of event ${ev._id}`,
-                    event: ev._id
-                }
-                c.stories.push(story);
-                model = await c.save()
-                story = last(model.stories);
-                console.log(`Story ${story._id} added to Character ${model._id}`)
-                ev.stories.push(story._id)
-                await ev.save()
-            }
-        }
+        // for (let i = 0; i < 16; i++) {
+        //     model = await Event.create({
+        //         name: `Event ${i + 1}`,
+        //         position: i
+        //     })
+        //     events.push(model)
+        //     console.log(model.name)
+        // }
+        // for (let c of characters) {
+        //     for (let ev of events) {
+        //         story = {
+        //             description: `Story of event ${ev._id}`,
+        //             event: ev._id
+        //         }
+        //         c.stories.push(story);
+        //         model = await c.save()
+        //         story = last(model.stories);
+        //         console.log(`Story ${story._id} added to Character ${model._id}`)
+        //         ev.stories.push(story._id)
+        //         await ev.save()
+        //     }
+        // }
 
     } catch (err) {
         throw new Error('custom error ' + err)

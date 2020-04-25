@@ -42,8 +42,8 @@ export default class Router {
         }))
 
         app.post('/api/events', asyncHandler(async (req, res) => {
-            let events = await EventDriver.createEvent(JSON.parse(req.body));
-            console.log('events', events)
+            console.log('req.body', req.body)
+            let events = await EventDriver.createEvent(req.body);
             res.send(events)
         }))
     }

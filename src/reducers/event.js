@@ -15,7 +15,7 @@ const Event = (state = initialState, action) => {
             return { ...state, events: action.data, evLoading: false };
         case EventConstants.ADD_EVENTS_FAILURE:
         case EventConstants.FECTH_EVENTS_FAILURE:
-            return { ...state, err: action.err, loading: false };
+            return { ...state, err: action.err, evLoading: false };
         default:
             return state;
     }
