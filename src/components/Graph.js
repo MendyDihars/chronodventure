@@ -12,14 +12,13 @@ import Event from './Event';
 import Link from './Link';
 import Cell from './Cell';
 import Add from './Add';
+import Story from './Story';
 
 
 // ACTIONS
 import { fetchCharacters } from '../actions/character';
 import { fetchEvents } from '../actions/event';
 import colors from '../colors';
-
-const isEmptyObject = o => Object.keys(o).length <= 0
 
 const build3DArray = (characters, events) => {
     let arr = [[undefined, ...events]]; // Init headers
@@ -59,12 +58,6 @@ const style = {
         alignItems: 'center',
         background: 'rgba(0, 0, 0, 0.5)',
         color: 'white'
-    },
-    paper: {
-        padding: 16
-    },
-    marged: {
-        marginBottom: 16
     },
     flexOne: {
         flex: 1
@@ -126,10 +119,6 @@ class Graph extends Component {
         const { evLoading, classes, characters, events } = this.props;
         const { isOpen, character, event } = this.state;
         let array3D = build3DArray(characters, events);
-        let story = {};
-        if (!isEmptyObject(character) && !isEmptyObject(event)) {
-            story = character.stories.find(s => s.event === event._id)
-        }
 
         if (evLoading) {
             return (
@@ -241,20 +230,12 @@ class Graph extends Component {
                     })
                 }
 
-                {/* POPUP */}
-                <Dialog open={isOpen} onClose={this.handleClose}>
-                    <Paper elevation={2} classes={{ root: classes.paper }}>
-                        <div className={classes.marged}>
-                            Character: {character.firstName} {character.lastName}
-                        </div>
-                        <div className={classes.marged}>
-                            Event: {event.name}
-                        </div>
-                        <div>
-                            Description :{story.description}
-                        </div>
-                    </Paper>
-                </Dialog>
+                <Story
+                    character={character}
+                    event={event}
+                    handleClose={this.handleClose}
+                    isDialogOpen={isOpen}
+                />
             </Grid>
         );
     }
