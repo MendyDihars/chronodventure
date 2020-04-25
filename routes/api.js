@@ -1,6 +1,7 @@
 import path from 'path';
 import CharacterDriver from '../drivers/character';
 import EventDriver from '../drivers/event';
+import asyncHandler from 'express-async-handler';
 
 export default class Router {
     constructor(app) {
@@ -29,23 +30,15 @@ export default class Router {
         })
 
         // CHARACTERS
-        app.get('/api/characters', async (req, res) => {
-            try {
-                const characters = await CharacterDriver.getCharacters();
-                res.send(characters);
-            } catch (err) {
-                throw new Error(err);
-            }
-        })
+        app.get('/api/characters', asyncHandler(async (req, res) => {
+            const characters = await CharacterDriver.getCharacters();
+            res.send(characters);
+        }))
 
         // EVENTS
-        app.get('/api/events', async (req, res) => {
-            try {
-                const events = await EventDriver.getEvents();
-                res.send(events);
-            } catch (err) {
-                throw new Error(err)
-            }
-        })
+        app.get('/api/events', asyncHandler(async (req, res) => {
+            const events = await EventDriver.getEvents();
+            res.send(events);
+        }))
     }
 }
